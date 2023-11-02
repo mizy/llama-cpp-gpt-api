@@ -1,0 +1,14 @@
+Name: gpt-api
+Host: 0.0.0.0
+Port: 9523
+Timeout: 180000
+Log: 
+  Mode: file
+  Level: error
+  KeepDays: 7
+ModelPath: models/baichuan2-7b-chat.Q4_0.gguf
+ModelOption:
+  NGPULayers: 0
+  Embeddings: true
+  F16Memory: true
+  ContextSize: 4000

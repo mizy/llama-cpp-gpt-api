@@ -1,0 +1,65 @@
+syntax = "v1"
+
+type (
+	ReqChatCompletion {
+		Model       string    `json:"model,optional"`
+		Messages    []Message `json:"messages"`
+		Stream      bool      `json:"stream,optional"`
+		MaxTokens   int       `json:"max_tokens,optional"`
+		Temperature float32   `json:"temperature,optional"`
+		TopP        float32   `json:"top_p,optional"`
+		User        string    `json:"user,optional"`
+		Seed        int       `json:"seed,optional"`
+	}
+
+	Message {
+		Role    string `json:"role"`
+		Content string `json:"content"`
+	}
+
+	ResChatCompletion {
+		ID      string   `json:"id"`
+		Choices []Choice `json:"choices"`
+		Created int      `json:"created"`
+		Model   string   `json:"model"`
+		Usage   Usage    `json:"usage"`
+	}
+	Usage {
+		CompletionToken int `json:"completion_tokens"`
+		PromptTokens    int `json:"prompt_tokens"`
+		TotalTokens     int `json:"total_tokens tokens"`
+	}
+	Choice {
+		Index   int     `json:"index"`
+		Message Message `json:"message,optional"`
+		Delta   Message `json:"delta,optional"`
+	}
+
+	ReqEmbeddings {
+		Input string `json:"input"`
+		User  string `json:"user,optional"`
+	}
+
+	ResEmbeddings {
+		Data  []Embedding `json:"data"`
+		Model string      `json:"model"`
+	}
+	Embedding {
+		Embedding []float32 `json:"embedding"`
+		Index     int       `json:"index"`
+	}
+)
+
+@server(
+	group: gpt  // is used to put related logic in the same package
+)
+
+service gpt-api {
+	@doc "Get ChatCompletions"
+	@handler ChatCompletions
+	post /chat/completions(ReqChatCompletion) returns (ResChatCompletion);
+
+	@doc "Get Embeddings"
+	@handler Embeddings
+	get /embeddings(ReqEmbeddings) returns (ResEmbeddings);
+}
