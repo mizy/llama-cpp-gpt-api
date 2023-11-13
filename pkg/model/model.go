@@ -86,13 +86,13 @@ func ReflectVal(k string, v interface{}, p *llama.ModelOptions) {
 
 // types.Message{Role,Content}
 func ConvertMessages2Text(messages []types.Message) string {
-	text := ""
+	text := "replay the conversation:\n"
 	for _, m := range messages {
 		if m.Role != "" {
-			text += m.Role + ": " + m.Content + "\n"
+			text += m.Role + ":\n" + m.Content + "\n"
 		} else {
 			text += m.Content + "\n"
 		}
 	}
-	return text
+	return text + "system:\n"
 }

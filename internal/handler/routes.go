@@ -15,12 +15,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/chat/completions",
+				Path:    "/v1/chat/completions",
 				Handler: gpt.ChatCompletionsHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/embeddings",
+				Path:    "/v1/embeddings",
 				Handler: gpt.EmbeddingsHandler(serverCtx),
 			},
 		},

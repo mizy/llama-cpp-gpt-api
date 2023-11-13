@@ -57,9 +57,9 @@ type (
 service gpt-api {
 	@doc "Get ChatCompletions"
 	@handler ChatCompletions
-	post /chat/completions(ReqChatCompletion) returns (ResChatCompletion);
+	post /v1/chat/completions(ReqChatCompletion) returns (ResChatCompletion);
 
 	@doc "Get Embeddings"
 	@handler Embeddings
-	get /embeddings(ReqEmbeddings) returns (ResEmbeddings);
+	get /v1/embeddings(ReqEmbeddings) returns (ResEmbeddings);
 }

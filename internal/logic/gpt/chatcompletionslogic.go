@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"runtime"
 
@@ -42,7 +43,12 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 		w.Header().Set("Connection", "keep-alive")
 
 	}
-
+	log.Print("start predict:\n", text)
+	flusher, flusherOk := w.(http.Flusher)
+	if !flusherOk {
+		http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
+		return nil, nil
+	}
 	result, err := model.LlamaInstance.Predict(text, func(p *llama.PredictOptions) {
 		if req.MaxTokens > 0 {
 			p.Tokens = req.MaxTokens
@@ -59,11 +65,6 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 		if req.Stream {
 			id := 0
 			p.TokenCallback = func(token string) bool {
-				flusher, flusherOk := w.(http.Flusher)
-				if !flusherOk {
-					http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
-					return false
-				}
 				data := &types.ResChatCompletion{
 					ID: fmt.Sprint(id),
 					Choices: []types.Choice{
@@ -81,15 +82,14 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 					return false
 				}
 				id++
-				fmt.Fprint(w, "data:"+string(json)+"\n")
+				fmt.Fprint(w, "data:"+string(json)+"\n\n")
 				flusher.Flush()
 				return true
 			}
 		}
 		p.Threads = runtime.NumCPU()
 	})
-	logx.Info("result", result, "err", err)
-
+	log.Print("end predict", result)
 	if err != nil {
 		return nil, err
 	}
@@ -106,11 +106,6 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 			},
 		}, nil
 	} else {
-		flusher, flusherOk := w.(http.Flusher)
-		if !flusherOk {
-			http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
-			return nil, nil
-		}
 		fmt.Fprint(w, "[DONE]")
 		flusher.Flush()
 	}
