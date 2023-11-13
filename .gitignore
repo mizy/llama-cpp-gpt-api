@@ -23,3 +23,4 @@ bin/*
 models/*
 logs/*
 llama.*.log
+ggml-metal.metal

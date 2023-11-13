@@ -5,7 +5,10 @@ IMAGE_TAG ?= latest
 export GO111MODULE := on
 GOOS := $(if $(GOOS),$(GOOS),linux)
 GOARCH := $(if $(GOARCH),$(GOARCH),amd64)
-GOENV  := CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH)
+ifeq ($(GOOS), darwin)
+    CGOFLAGS := "-framework Foundation -framework Metal -framework MetalKit -framework MetalPerformanceShaders"
+endif
+GOENV  := CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) CGO_LDFLAGS=$(CGOFLAGS) LLAMA_METAL_NDEBUG=1
 GO     := $(GOENV) go
 GO_BUILD := $(GO) build -trimpath
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
@@ -57,8 +60,12 @@ build:
 	$(GO_BUILD) -ldflags '$(LDFLAGS)' -o bin/llama-cpp-gpt-api gpt.go
 
 run:
-	go build -ldflags '$(LDFLAGS)' -o bin/llama-cpp-gpt-api gpt.go
+	$(GO_BUILD) -ldflags '$(LDFLAGS)' -o bin/llama-cpp-gpt-api gpt.go
 	bin/llama-cpp-gpt-api
+
+go-llama.cpp:
+	git submodule update --init
+	cd go-llama.cpp && git submodule update --init && make libbinding.a
 
 test:
 	go test ./...

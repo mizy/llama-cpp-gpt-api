@@ -6,6 +6,10 @@ generate binding code
 ```
 cd go-llama.cpp
 make libbinding.a
+
+# for mac m1
+BUILD_TYPE=metal make libbinding.a
+cp go-llama.cpp/ggml-metal.metal ./
 ```
 
 start server

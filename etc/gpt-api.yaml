@@ -6,9 +6,9 @@ Log:
   Mode: file
   Level: error
   KeepDays: 7
-ModelPath: models/baichuan2-7b-chat.Q4_0.gguf
+ModelPath: models/ggml-model-baichuan2-13b-q4.gguf
 ModelOption:
-  NGPULayers: 0
-  Embeddings: true
-  F16Memory: true
-  ContextSize: 4000
+  NGPULayers: 1
+  Embeddings: false
+  F16Memory: false
+  ContextSize: 512

@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -24,6 +25,7 @@ func LoadModel() {
 		for k, v := range config.C.ModelOption {
 			ReflectVal(k, v, p)
 		}
+		log.Print("Model options: ", p)
 	})
 	if err != nil {
 		fmt.Println("Loading the model failed:", err.Error())
@@ -86,7 +88,7 @@ func ReflectVal(k string, v interface{}, p *llama.ModelOptions) {
 
 // types.Message{Role,Content}
 func ConvertMessages2Text(messages []types.Message) string {
-	text := "replay the conversation:\n"
+	text := "you are a asistant,and replay the conversation:\n"
 	for _, m := range messages {
 		if m.Role != "" {
 			text += m.Role + ":\n" + m.Content + "\n"
@@ -94,5 +96,5 @@ func ConvertMessages2Text(messages []types.Message) string {
 			text += m.Content + "\n"
 		}
 	}
-	return text + "system:\n"
+	return text + "asistant:\n"
 }
