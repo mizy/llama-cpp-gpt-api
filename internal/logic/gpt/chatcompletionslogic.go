@@ -88,12 +88,13 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 			}
 		}
 		p.Threads = runtime.NumCPU()
+		// p.Tokens = 512
 	})
 	log.Print("end predict", result)
-	if err != nil {
-		return nil, err
-	}
 	if !req.Stream {
+		if err != nil {
+			return nil, err
+		}
 		return &types.ResChatCompletion{
 			ID: "",
 			Choices: []types.Choice{

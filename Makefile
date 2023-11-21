@@ -8,7 +8,7 @@ GOARCH := $(if $(GOARCH),$(GOARCH),amd64)
 ifeq ($(GOOS), darwin)
     CGOFLAGS := "-framework Foundation -framework Metal -framework MetalKit -framework MetalPerformanceShaders"
 endif
-GOENV  := CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) CGO_LDFLAGS=$(CGOFLAGS) LLAMA_METAL_NDEBUG=1
+GOENV  := CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) CGO_LDFLAGS=$(CGOFLAGS) 
 GO     := $(GOENV) go
 GO_BUILD := $(GO) build -trimpath
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
