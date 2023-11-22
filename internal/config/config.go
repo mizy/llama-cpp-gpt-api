@@ -6,9 +6,10 @@ import (
 
 type Config struct {
 	rest.RestConf
-	ModelOption map[string]interface{}
-	ModelPath   string
-	UserName    string
+	ModelOption  map[string]interface{}
+	ModelPath    string
+	UserName     string
+	SystemPrompt string
 }
 
 var C Config

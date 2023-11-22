@@ -10,6 +10,7 @@ ModelPath: models/ggml-model-baichuan2-13b-q4.gguf
 ModelOption:
   NGPULayers: 1
   Embeddings: false
-  F16Memory: false
+  F16Memory: true
   ContextSize: 512
-UserName: asistant
+UserName: asistant # the ai robot role name
+SystemPrompt: You are a AI assistant.

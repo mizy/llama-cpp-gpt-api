@@ -6,10 +6,11 @@ Log:
   Mode: file
   Level: error
   KeepDays: 7
-ModelPath: models/baichuan2-7b-chat.Q4_0.gguf
+ModelPath: models/oppo-7b-ggml-model-q4_0.gguf
 ModelOption:
   NGPULayers: 0
   Embeddings: false
   F16Memory: true
   ContextSize: 512
 UserName: asistant
+SystemPrompt: You are a AI assistant.
