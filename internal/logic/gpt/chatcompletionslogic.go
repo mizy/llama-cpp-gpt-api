@@ -41,7 +41,6 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 		w.Header().Set("Content-Type", "text/event-stream")
 		w.Header().Set("Cache-Control", "no-cache")
 		w.Header().Set("Connection", "keep-alive")
-
 	}
 	log.Print("start predict:\n", text)
 	flusher, flusherOk := w.(http.Flusher)
@@ -107,7 +106,7 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 			},
 		}, nil
 	} else {
-		fmt.Fprint(w, "[DONE]")
+		fmt.Fprint(w, "data: [DONE]")
 		flusher.Flush()
 	}
 	return nil, nil
