@@ -35,7 +35,10 @@ func NewChatCompletionsLogic(ctx context.Context, svcCtx *svc.ServiceContext, w 
 }
 
 func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (resp *types.ResChatCompletion, err error) {
-	text := model.ConvertMessages2Text(req.Messages)
+	text := req.Prompt
+	if len(req.Messages) > 0 {
+		text = model.ConvertMessages2Text(req.Messages)
+	}
 	w := *l.w
 	if req.Stream {
 		w.Header().Set("Content-Type", "text/event-stream")

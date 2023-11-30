@@ -10,6 +10,7 @@ type ReqChatCompletion struct {
 	TopP        float32   `json:"top_p,optional"`
 	User        string    `json:"user,optional"`
 	Seed        int       `json:"seed,optional"`
+	Prompt      string    `json:"prompt,optional"`
 }
 
 type Message struct {

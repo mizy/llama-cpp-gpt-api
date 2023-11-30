@@ -11,6 +11,6 @@ ModelOption:
   NGPULayers: 0
   Embeddings: false
   F16Memory: true
-  ContextSize: 1024
+  ContextSize: 2048
 UserName: asistant #
 SystemPrompt: You are a AI assistant.
