@@ -107,6 +107,11 @@ func (l *ChatCompletionsLogic) ChatCompletions(req *types.ReqChatCompletion) (re
 					Index: 0,
 				},
 			},
+			Usage: types.Usage{
+				CompletionToken: 0,
+				PromptTokens:    0,
+				TotalTokens:     0,
+			},
 		}, nil
 	} else {
 		fmt.Fprint(w, "data: [DONE]")
